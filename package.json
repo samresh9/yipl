@@ -4,12 +4,31 @@
   "description": "This README would normally document whatever steps are necessary to get your application up and running.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": " node src/server.js",
+    "dev": "nodemon --inspect-brk src/server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix ",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "axios": "^1.5.1",
+    "config": "^3.3.9",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "husky": "^8.0.3",
+    "prettier": "^3.0.3"
   }
 }
