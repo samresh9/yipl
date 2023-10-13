@@ -15,7 +15,7 @@ module.exports = {
         endOfLine: "auto",
       },
     ],
-    "max-len": ["error", { ignoreComments: true, ignoreStrings: true }],
+    "max-len": ["off", { ignoreComments: true, ignoreStrings: true }],
     "linebreak-style": ["error", "unix"],
     "eol-last": ["warn", "always"],
     "no-console": "error",
