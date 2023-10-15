@@ -13,6 +13,7 @@ const highestTotalSaleByCountry = require("./routes/highestTotalSaleRoutes");
 const lowestTotalSaleByCountry = require("./routes/lowestTotalSaleRoutes");
 const yearIntervalAverage = require("./routes/yearIntervalAverageRoutes");
 const PORT = process.env.PORT || 5000;
+// eslint-disable-next-line no-unused-vars
 const ejs = require("ejs");
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
