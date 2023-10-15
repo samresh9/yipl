@@ -22,8 +22,7 @@ order by
       if (format && format === "api") {
         return res.json({ data: rows });
       }
-      // res.json({ data: rows });
-      res.render("totalsales", { data: rows });
+      res.render("totalSales", { data: rows });
     });
   });
   return router;
