@@ -3,15 +3,15 @@ const app = express();
 const {
   handle500Error,
   handleNotFound,
-} = require("./src/middlewares/errorsHandlerMiddleware");
-const logger = require("./src/log/logger");
+} = require("./middlewares/errorsHandlerMiddleware");
+const logger = require("./log/logger");
 const sqlite3 = require("sqlite3").verbose();
 const path = "./petroleum_datafinal.db";
-const { createDatabase } = require("./src/database");
-const totalSales = require("./src/routes/totalSaleRoutes");
-const highestTotalSaleByCountry = require("./src/routes/highestTotalSaleRoutes");
-const lowestTotalSaleByCountry = require("./src/routes/lowestTotalSaleRoutes");
-const yearIntervalAverage = require("./src/routes/yearIntervalAverageRoutes");
+const { createDatabase } = require("./database");
+const totalSales = require("./routes/totalSaleRoutes");
+const highestTotalSaleByCountry = require("./routes/highestTotalSaleRoutes");
+const lowestTotalSaleByCountry = require("./routes/lowestTotalSaleRoutes");
+const yearIntervalAverage = require("./routes/yearIntervalAverageRoutes");
 const PORT = process.env.PORT || 5000;
 // eslint-disable-next-line no-unused-vars
 const ejs = require("ejs");
