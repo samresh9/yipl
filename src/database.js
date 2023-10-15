@@ -1,27 +1,6 @@
-const fs = require("fs");
-const sqlite3 = require("sqlite3").verbose();
 const logger = require("./log/logger");
-const path = "./petroleum_datafinal7.db";
 const axios = require("axios");
 
-// const db = new sqlite3.Database(path, (err) => {
-//   if (err) {
-//     logger.error("Error creating or opening datbase");
-//   } else {
-//     logger.info("database connection successfull");
-//   }
-// });
-
-// fs.access(path, fs.constants.F_OK, (err) => {
-//   if (err) {
-//     createDatabase((err) => {
-//       if (err) logger.error("Error in creating file");
-//       logger.info("file creation successfull");
-//     });
-//   } else {
-//     logger.info("File exits");
-//   }
-// });
 const createDatabase = (db, callback) => {
   try {
     db.serialize(() => {
@@ -97,60 +76,86 @@ const normaliseData = (db, data) => {
       "INSERT INTO sales(id , country_id,year_id,product_id,sale) VALUES(?,?,?,?,?)",
     );
 
-    let yearSet = new Set();
-    let countrySet = new Set();
-    let productsSet = new Set();
+    insertNormalisedData(
+      db,
+      data,
+      insertYears,
+      insertCountry,
+      insertPetroleumProducts,
+      insertSales,
+    );
+  });
+};
+function insertNormalisedData(
+  db,
+  data,
+  insertYears,
+  insertCountry,
+  insertPetroleumProducts,
+  insertSales,
+) {
+  let yearSet = new Set();
+  let countrySet = new Set();
+  let productsSet = new Set();
 
-    data.forEach((item) => {
-      yearSet.add(item.year);
-      countrySet.add(item.country);
-      productsSet.add(item.petroleum_product);
-    });
-    const yearMap = new Map(
-      [...yearSet].map((value, index) => [value, index + 1]),
-    );
-    const countryMap = new Map(
-      [...countrySet].map((value, index) => [value, index + 1]),
-    );
+  data.forEach((item) => {
+    yearSet.add(item.year);
+    countrySet.add(item.country);
+    productsSet.add(item.petroleum_product);
+  });
+  const yearMap = new Map(
+    [...yearSet].map((value, index) => [value, index + 1]),
+  );
+  const countryMap = new Map(
+    [...countrySet].map((value, index) => [value, index + 1]),
+  );
 
-    const productsMap = new Map(
-      [...productsSet].map((value, index) => [value, index + 1]),
-    );
+  const productsMap = new Map(
+    [...productsSet].map((value, index) => [value, index + 1]),
+  );
+  db.serialize(() => {
     yearMap.forEach((value, key) => {
-      insertYears.run(value, key);
+      insertYears.run(value, key, function (err) {
+        if (err) {
+          logger.error("Error occured during insertion", err);
+        }
+      });
     });
     countryMap.forEach((value, key) => {
-      insertCountry.run(value, key);
+      insertCountry.run(value, key, function (err) {
+        if (err) {
+          logger.error("Error occured during insertion", err);
+        }
+      });
     });
     productsMap.forEach((value, key) => {
-      insertPetroleumProducts.run(value, key);
+      insertPetroleumProducts.run(value, key, function (err) {
+        if (err) {
+          logger.error("Error occured during insertion", err);
+        }
+      });
     });
 
     data.forEach((item, index) => {
       const countryID = countryMap.get(item.country);
       const yearID = yearMap.get(item.year);
       const productID = productsMap.get(item.petroleum_product);
-      insertSales.run(index + 1, countryID, yearID, productID, item.sale);
+      insertSales.run(
+        index + 1,
+        countryID,
+        yearID,
+        productID,
+        item.sale,
+        function (err) {
+          if (err) {
+            logger.error("Error occured during insertion", err);
+          }
+        },
+      );
     });
-    // let salesData = [];
-    // data.forEach((item, index) => {
-    //   salesData.push([
-    //     index + 1,
-    //     countryMap.get(item.country),
-    //     yearMap.get(item.year),
-    //     productsMap.get(item.petroleum_product),
-    //   ]);
-    // });
-    // salesData.forEach((sale, index) => {
-    //   insertSales.run(index + 1, sale);
-    // });
-
-    // insertCountry.finalize();
-    // insertYears.finalize();
-    // insertPetroleumProducts.finalize();
-    //insertSales.finalize();
   });
-};
+}
+
 module.exports = {
   createDatabase,
   normaliseData,

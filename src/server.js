@@ -3,35 +3,20 @@ const app = express();
 const {
   handle500Error,
   handleNotFound,
-} = require("./log/middlewares/errorsHandlerMiddleware");
+} = require("./middlewares/errorsHandlerMiddleware");
 const logger = require("./log/logger");
 const sqlite3 = require("sqlite3").verbose();
-const path = "./petroleum_datafinal7.db";
+const path = "./petroleum_datafinal.db";
 const { createDatabase } = require("./database");
+const totalSales = require("./routes/totalSaleRoutes");
+const highestTotalSaleByCountry = require("./routes/highestTotalSaleRoutes");
+const lowestTotalSaleByCountry = require("./routes/lowestTotalSaleRoutes");
+const yearIntervalAverage = require("./routes/yearIntervalAverageRoutes");
 const PORT = process.env.PORT || 5000;
+const ejs = require("ejs");
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
 
-app.get("/", (req, res, next) => {
-  logger.info("hi");
-  const totalSales = db.prepare(`SELECT
-    name,
-    sum(sale) total_sale
-From
-    petroleum_products pp
-    JOIN sales s ON pp.id = s.product_id
-group by
-    pp."name"
-order by
-    total_sale DESC;`);
-  totalSales.all(function (err, rows) {
-    if (err) {
-      logger.error("error");
-      return next(err);
-    }
-    res.json({ data: rows });
-  });
-});
-app.use(handleNotFound);
-app.use(handle500Error);
 const db = new sqlite3.Database(path, (err) => {
   if (!err) {
     logger.info("database connection successfull");
@@ -60,3 +45,14 @@ const db = new sqlite3.Database(path, (err) => {
     logger.error("Error creating or opening datbase");
   }
 });
+
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
+app.use("/totalsales", totalSales(db));
+app.use("/highestsale", highestTotalSaleByCountry(db));
+app.use("/lowestsale", lowestTotalSaleByCountry(db));
+app.use("/yearinterval", yearIntervalAverage(db));
+app.use(handleNotFound);
+app.use(handle500Error);

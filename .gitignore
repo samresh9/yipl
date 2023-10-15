@@ -48,3 +48,5 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Ignore SQLite database file
+*.sqlite3
