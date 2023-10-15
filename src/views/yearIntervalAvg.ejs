@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Total sales of each products</h1>
+    <div>
+      <div>
+        <% if (locals.data) { %>
+        <table cellspacing="15">
+          <thead>
+            <th>Product</th>
+            <th>Year</th>
+            <th>AVG</th>
+          </thead>
+          <tbody>
+            <% data.forEach((item,index) => { %>
+            <tr>
+              <td><%= item.name%></td>
+              <td><%= item.YEAR %></td>
+              <td><%= item.AVG %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>

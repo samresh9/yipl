@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 10px;
+      }
+      h1 {
+        text-align: center;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Total sales of each products</h1>
+    <div class="container">
+      <div class="">
+        <h1>Web App</h1>
+        <button id="totalSalesButton">Total Sales</button>
+        <button id="highestCountryButton">Highest Country by Sale</button>
+        <button id="lowestCountryButton">Lowest Country by Sale</button>
+        <button id="yearIntervalAvgButton">Year Interval Average Sale</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="">
+        <h1>API</h1>
+        <button id="totalSalesApi">Total Sales</button>
+        <button id="highestCountryApi">Highest Country by Sale</button>
+        <button id="lowestCountryApi">Lowest Country by Sale</button>
+        <button id="yearIntervalAvgApi">Year Interval Average Sale</button>
+      </div>
+    </div>
+    <script>
+      function navigateTo(route) {
+        window.location.href = `/${route}`;
+      }
+      function openInNewPage(url) {
+        window.open(url, "_blank");
+      }
+      const totalSalesButton = document.getElementById("totalSalesButton");
+      const highestCountryButton = document.getElementById(
+        "highestCountryButton"
+      );
+      const lowestCountryButton = document.getElementById(
+        "lowestCountryButton"
+      );
+        const yearIntervalAvgButton = document.getElementById(
+        "yearIntervalAvgButton"
+      );
+      const totalSalesApi = document.getElementById("totalSalesApi");
+      const highestCountryApi = document.getElementById("highestCountryApi");
+      const lowestCountryApi = document.getElementById("lowestCountryApi");
+      const yearIntervalAvgApi = document.getElementById("yearIntervalAvgApi");
+      totalSalesButton.addEventListener("click", () => {
+        openInNewPage("/totalsales");
+      });
+
+      highestCountryButton.addEventListener("click", () => {
+        openInNewPage("/highestsale");
+      });
+
+      lowestCountryButton.addEventListener("click", () => {
+        openInNewPage("/lowestsale");
+      });
+      yearIntervalAvgButton.addEventListener("click",()=>{
+        openInNewPage("/yearinterval");
+      })
+      totalSalesApi.addEventListener("click", () => {
+        openInNewPage("/totalsales?format=api");
+      });
+      highestCountryApi.addEventListener("click", () => {
+        openInNewPage("/highestsale?format=api");
+      });
+      lowestCountryApi.addEventListener("click", () => {
+        openInNewPage("/lowestsale?format=api");
+      });
+      yearIntervalAvgApi.addEventListener("click", () => {
+        openInNewPage("/yearinterval?format=api");
+      });
+    </script>
+  </body>
+</html>
