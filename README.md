@@ -7,7 +7,7 @@ The project is live at [https://yipl-3hli.onrender.com/](https://yipl-3hli.onren
 ## Data Source
 - Data Source: [Raw Data JSON](https://raw.githubusercontent.com/younginnovations/internship-challenges/master/programming/petroleum-report/data.json)
 
-## API Endpoints
+## Endpoints
 
 ### Total Sales
 - List the total sale of each petroleum product.
